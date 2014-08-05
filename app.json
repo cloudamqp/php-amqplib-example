@@ -1,0 +1,10 @@
+{
+  "name": "PHP AMQP Sample App",
+  "description": "A PHP example project showing how to connect, publish and consume a message via CloudAMQP",
+  "repository": "https://github.com/cloudamqp/php-amqplib-example",
+  "logo": "http://www.cloudamqp.com/images/rabbit_256.png",
+  "keywords": ["php", "cloudamqp", "amqp", "rabbitmq"],
+    "addons": [
+    "cloudamqp"
+  ]
+}

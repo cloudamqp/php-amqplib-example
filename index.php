@@ -23,4 +23,4 @@ $ch->basic_ack($retrived_msg->delivery_info['delivery_tag']);
 
 $ch->close();
 $conn->close();
-
+?>

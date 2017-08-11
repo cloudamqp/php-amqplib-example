@@ -1,26 +1,24 @@
 <?php
 require('vendor/autoload.php');
-define('AMQP_DEBUG', true);
-use PhpAmqpLib\Connection\AMQPConnection;
-use PhpAmqpLib\Message\AMQPMessage;
-$url = parse_url(getenv('CLOUDAMQP_URL'));
-$conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
-$ch = $conn->channel();
 
-$exchange = 'amq.direct';
-$queue = 'basic_get_queue';
-$ch->queue_declare($queue, false, true, false, false);
-$ch->exchange_declare($exchange, 'direct', true, true, false);
-$ch->queue_bind($queue, $exchange);
+use Enqueue\AmqpBunny\AmqpConnectionFactory;
+use Interop\Amqp\AmqpMessage;
+use Interop\Amqp\AmqpQueue;
 
-$msg_body = 'the body';
-$msg = new AMQPMessage($msg_body, array('content_type' => 'text/plain', 'delivery_mode' => 2));
-$ch->basic_publish($msg, $exchange);
+$context = (new AmqpConnectionFactory(getenv('CLOUDAMQP_URL')))->createContext();
+$queue = $context->createQueue('basic_get_queue');
+$queue->addFlag(AmqpQueue::FLAG_DURABLE);
 
-$retrived_msg = $ch->basic_get($queue);
-var_dump($retrived_msg->body);
-$ch->basic_ack($retrived_msg->delivery_info['delivery_tag']);
+$message = $context->createMessage('the body');
+$message->setContentType('text/plain');
+$message->setDeliveryMode(AmqpMessage::DELIVERY_MODE_PERSISTENT);
 
-$ch->close();
-$conn->close();
-?>
+$context->createProducer()->send($queue, $message);
+
+$consumer = $context->createConsumer($queue);
+$gotMessage = $consumer->receiveNoWait();
+var_dump($gotMessage->getBody());
+
+$consumer->acknowledge($gotMessage);
+
+$context->close();

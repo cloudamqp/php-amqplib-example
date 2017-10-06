@@ -8,3 +8,6 @@
 * set url to CloudAMQP `export CLOUDAMQP_URL=amqp://....`
 * run `php index.php`
 
+## Deploy to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)

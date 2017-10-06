@@ -6,12 +6,14 @@ use PhpAmqpLib\Connection\AMQPSSLConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 $url = parse_url(getenv('CLOUDAMQP_URL'));
+$vhost = substr($url['path'], 1);
 if($url['scheme'] === "amqps") {
-    $conn = new AMQPSSLConnection($url['host'], 5671, $url['user'], $url['pass'], substr($url['path'], 1), array(
+    $ssl_opts = array(
         'capath' => '/etc/ssl/certs'
-    ));    
+    );
+    $conn = new AMQPSSLConnection($url['host'], 5671, $url['user'], $url['pass'], $vhost, $ssl_opts);    
 } else {
-    $conn = new AMQPStreamConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));    
+    $conn = new AMQPStreamConnection($url['host'], 5672, $url['user'], $url['pass'], $vhost);    
 }
 
 $ch = $conn->channel();

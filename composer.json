@@ -1,6 +1,5 @@
 {
   "require": {
-    "videlalvaro/php-amqplib": "2.2.*",
-    "ext-bcmath": "*"
+	"php-amqplib/php-amqplib": "2.7.*"
   }
 }

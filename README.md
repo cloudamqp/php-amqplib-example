@@ -1,13 +1,6 @@
-# Example PHP code for using RabbitMQ
+# php-amqplib-example
 
-## Getting started
+This repository is no longer in use and archived on Wed Oct 21 09:51:35 AM UTC 2026, last commit was 00d8c1d.
 
-* Clone the repo
-* Install [Composer](https://getcomposer.org/download) if you don't already have it installed
-* run `php composer.phar install`
-* set url to CloudAMQP `export CLOUDAMQP_URL=amqp://....`
-* run `php index.php`
+Last working version is available in the [archive](https://github.com/cloudamqp/php-amqplib-example/tree/archive) branch.
 
-## Deploy to Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
